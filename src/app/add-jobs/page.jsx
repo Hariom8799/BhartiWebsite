@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import toast from "react-hot-toast";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 const AddJob = () => {
   const { user, authToken, isLoading } = useAuth();
@@ -273,8 +273,8 @@ const AddJob = () => {
                 {isLoading
                   ? "Processing..."
                   : editingId
-                  ? "Update Job"
-                  : "Publish Job"}
+                    ? "Update Job"
+                    : "Publish Job"}
               </Button>
               {editingId && (
                 <Button variant="outlined" onClick={resetForm}>
