@@ -1,3 +1,4 @@
+// ✅ AuthProvider.js
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
 import toast from "react-hot-toast";
@@ -20,6 +21,14 @@ export const AuthProvider = ({ children }) => {
     setIsLoading(false);
   }, []);
 
+  const login = (token, userData) => {
+    localStorage.setItem("authToken", token);
+    localStorage.setItem("user", JSON.stringify(userData));
+    setUser(userData);
+    setAuthToken(token);
+    toast.success("Login successful!");
+  };
+
   const logout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
@@ -29,7 +38,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, authToken, isLoading, logout }}>
+    <AuthContext.Provider value={{ user, authToken, isLoading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

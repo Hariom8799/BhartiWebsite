@@ -43,7 +43,7 @@ const SkillsDevelopmentProgrames = () => {
                         </div>
                         <Link href="/all-cards?type=skills" >
                         <Button className="btn-custom" >
-                                                    <span>View All</span>
+                            <span>View All</span>
                         </Button>
                         </Link>
                     </div>
@@ -55,12 +55,12 @@ const SkillsDevelopmentProgrames = () => {
                             spaceBetween={20}
                             pagination={false}
                             modules={[Navigation, Pagination, Autoplay]}
-                            className="blogSlider mt-5"
+                            className="details-pageSlider mt-5"
                         >
                             {programs.map((program) => (
                                 <SwiperSlide key={program._id}>
                                     <div className="card bg-white shadow-md rounded-md overflow-hidden group">
-                                        <Link href={`/blog/${program._id}`}>
+                                        <Link href={`/details-page/${program._id}?type=skills`}>
                                             <div className="img rounded-md overflow-hidden relative">
                                                 <img
                                                     src={program.thumbnail}
@@ -74,7 +74,7 @@ const SkillsDevelopmentProgrames = () => {
                                         </Link>
 
                                         <div className="info p-4 flex flex-col gap-3">
-                                            <Link href={`/blog/${program._id}`}>
+                                            <Link href={`/details-page/${program._id}?type=skills`}>
                                                 <h3 className="text-[15px] font-bold text-gray-700 hover:!text-primary">
                                                     {program.title}
                                                 </h3>
@@ -83,7 +83,7 @@ const SkillsDevelopmentProgrames = () => {
                                                 {program.shortDescription.slice(0, 80)}...
                                             </p>
                                             <Link
-                                                href={`/blog/${program._id}`}
+                                                href={`/details-page/${program._id}?type=skills`}
                                                 className="text-[14px] font-bold text-gray-700 hover:text-primary flex items-center gap-1"
                                             >
                                                 Read More <MdArrowRightAlt size={25} />

@@ -105,7 +105,7 @@ const AllCards = () => {
                     </div>
                   </Link>
                   <div className="info p-4 flex flex-col gap-3">
-                    <Link href={`/blog/${item._id}`}>
+                    <Link href={`/details-page/${item._id}?type=${type}`}>
                       <h3 className="text-[15px] font-bold text-gray-800 hover:!text-primary">
                         {item.title}
                       </h3>

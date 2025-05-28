@@ -75,7 +75,7 @@ export default function Home() {
         // </div>
       }
 
-      {/* <SkillsDevelopmentProgrames /> */}
+      <SkillsDevelopmentProgrames />
     </>
   );
 }

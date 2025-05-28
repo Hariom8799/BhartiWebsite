@@ -14,33 +14,92 @@ const DetailsPage = () => {
     const searchParams = useSearchParams();
     const type = searchParams.get("type") || "certificate";
 
+    console.log("Component rendered - id:", id, "type:", type);
+
     const [details, setDetails] = useState(null);
     const [relatedItems, setRelatedItems] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
+        console.log("useEffect triggered - id:", id, "type:", type);
+
+        // Reset state when parameters change
+        setDetails(null);
+        setRelatedItems([]);
+        setLoading(true);
+        setError(null);
+
         const fetchDetails = async () => {
             try {
                 const apiEndpoint = `${process.env.NEXT_PUBLIC_BASE_URL}${apiMap[type]}`;
+                console.log("Fetching from:", apiEndpoint);
+
                 const response = await fetch(apiEndpoint);
                 const json = await response.json();
+
+                console.log("API Response:", json);
+
                 if (json.success) {
                     const matchedItem = json.data.find((item) => item._id === id);
                     const others = json.data.filter((item) => item._id !== id);
-                    setDetails(matchedItem);
-                    setRelatedItems(others.slice(0, 4)); // show max 4 related items
+
+                    console.log("matchedItem", matchedItem);
+                    console.log("others", others);
+
+                    if (matchedItem) {
+                        setDetails(matchedItem);
+                        setRelatedItems(others.slice(0, 4));
+                    } else {
+                        setError("Item not found");
+                        console.error("Item not found for id:", id);
+                    }
                 } else {
-                    console.error("Failed to fetch detail data");
+                    setError("Failed to fetch data");
+                    console.error("API returned success: false");
                 }
             } catch (err) {
+                setError("Error fetching details");
                 console.error("Error fetching details:", err);
+            } finally {
+                setLoading(false);
             }
         };
 
-        fetchDetails();
-    }, [id, type]);
+        // Only fetch if we have an id
+        if (id) {
+            fetchDetails();
+        } else {
+            setLoading(false);
+            setError("No ID provided");
+        }
+    }, [id, type]); // Dependencies should trigger re-fetch
+
+    if (loading) {
+        return (
+            <div className="text-center py-10">
+                <p>Loading...</p>
+                <p className="text-sm text-gray-500">ID: {id}, Type: {type}</p>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="text-center py-10">
+                <p className="text-red-500">Error: {error}</p>
+                <p className="text-sm text-gray-500">ID: {id}, Type: {type}</p>
+            </div>
+        );
+    }
 
     if (!details) {
-        return <p className="text-center py-10">Loading...</p>;
+        return (
+            <div className="text-center py-10">
+                <p>No details found</p>
+                <p className="text-sm text-gray-500">ID: {id}, Type: {type}</p>
+            </div>
+        );
     }
 
     return (
@@ -72,7 +131,7 @@ const DetailsPage = () => {
                                 {relatedItems.map((item) => (
                                     <div key={item._id} className="related flex items-center gap-6 py-2">
                                         <Link
-                                            href={`/blog/${item._id}?type=${type}`}
+                                            href={`/details-page/${item._id}?type=${type}`}
                                             className="img rounded-md overflow-hidden group relative w-[35%]"
                                         >
                                             <img

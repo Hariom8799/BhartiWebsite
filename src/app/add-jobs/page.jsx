@@ -30,7 +30,12 @@ const AddJob = () => {
   const fetchJobs = async () => {
     try {
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/department-jobs?departmentId=${user.department._id}`
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/department-jobs?departmentId=${user.department._id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        }
       );
       const data = await res.json();
       if (data.success) setJobs(data.jobs);

@@ -1,3 +1,4 @@
+// ✅ DepartmentLogin.js
 "use client";
 import React, { useState } from "react";
 import TextField from "@mui/material/TextField";
@@ -5,6 +6,7 @@ import Button from "@mui/material/Button";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { useAuth } from "../../context/AuthContext";
 
 const DepartmentLogin = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,7 +15,9 @@ const DepartmentLogin = () => {
     email: "",
     password: "",
   });
+
   const router = useRouter();
+  const { login } = useAuth(); 
 
   const onChangeInput = (e) => {
     const { name, value } = e.target;
@@ -43,12 +47,9 @@ const DepartmentLogin = () => {
       const data = await res.json();
 
       if (data.success) {
-        // Store everything you need
-        localStorage.setItem("authToken", data.token);
-        localStorage.setItem("user", JSON.stringify(data.user));
-        window.dispatchEvent(new Event("storage")); // Trigger storage event
-        toast.success("Login successful!", { id: loadingToast });
-        router.push("/add-jobs"); // or your desired page
+        login(data.token, data.user); 
+        toast.dismiss(loadingToast);
+        router.push("/add-jobs");
       } else {
         toast.error(data.error || "Login failed", { id: loadingToast });
       }
