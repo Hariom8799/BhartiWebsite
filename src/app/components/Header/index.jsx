@@ -23,7 +23,7 @@ const Header = () => {
     { title: "Career", href: "/career" },
     { title: "Contact Us", href: "/contact" },
     { title: "More", href: "/" },
-    { title: "ChatBot", href: "/" },
+    { title: "ChatBot", href: "/" }
   ];
 
   return (
@@ -82,9 +82,16 @@ const Header = () => {
               </nav>
 
               {user ? (
-                <Button className="rounded-full btn-custom" onClick={handleLogout}>
-                  <span>Logout</span>
-                </Button>
+                <>
+                  <Link href="/add-jobs">
+                    <Button className="!text-gray-600 !font-[600] hover:!text-primary !px-0">
+                      Add Job
+                    </Button>
+                  </Link>
+                  <Button className="rounded-full btn-custom" onClick={handleLogout}>
+                    <span>Logout</span>
+                  </Button>
+                </>
               ) : (
                 <Link href="/department-login">
                   <Button className="rounded-full btn-custom">
