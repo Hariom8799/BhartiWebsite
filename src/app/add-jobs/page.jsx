@@ -50,10 +50,7 @@ const AddJob = () => {
     setFormFields((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleFileChange = (e) => {
-    setJobDescriptionFile(e.target.files[0]);
-  };
-
+  // Updated handleSubmit function in AddJob component
   const handleSubmit = async () => {
     const {
       nameOfPosition,
@@ -83,6 +80,7 @@ const AddJob = () => {
     try {
       const formData = new FormData();
 
+      // Add form fields
       Object.entries(formFields).forEach(([key, value]) => {
         if (key !== "noOfFilledPosition" || editingId) {
           formData.append(key, value);
@@ -92,8 +90,16 @@ const AddJob = () => {
       formData.append("departmentType", user.departmentType);
       formData.append("departmentId", user.department._id);
 
+      // Add file if selected
       if (jobDescriptionFile) {
+        console.log("Adding file to FormData:", jobDescriptionFile);
         formData.append("jobDescriptionFile", jobDescriptionFile);
+      }
+
+      // Debug: Log FormData contents
+      console.log("FormData contents:");
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
       }
 
       const res = await fetch(
@@ -101,12 +107,16 @@ const AddJob = () => {
         }`,
         {
           method: editingId ? "PUT" : "POST",
-          headers: { Authorization: `Bearer ${authToken}` },
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            // Don't set Content-Type header - let browser set it for FormData
+          },
           body: formData,
         }
       );
 
       const data = await res.json();
+      console.log("Server response:", data);
 
       if (data.success) {
         toast.success(
@@ -119,8 +129,39 @@ const AddJob = () => {
         toast.error(data.message || "Operation failed", { id: loadingToast });
       }
     } catch (err) {
-      console.error(err);
+      console.error("Submit error:", err);
       toast.error("Something went wrong!", { id: loadingToast });
+    }
+  };
+
+  // Updated file input handler
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    console.log("File selected:", file);
+
+    if (file) {
+      // Validate file type
+      const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      const allowedExtensions = ['.pdf', '.doc', '.docx'];
+      const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
+
+      if (!allowedTypes.includes(file.type) && !allowedExtensions.includes(fileExtension)) {
+        toast.error("Please select a PDF, DOC, or DOCX file");
+        e.target.value = ''; // Clear the input
+        return;
+      }
+
+      // Check file size (10MB limit)
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error("File size must be less than 10MB");
+        e.target.value = ''; // Clear the input
+        return;
+      }
+
+      setJobDescriptionFile(file);
+      console.log("File set successfully:", file.name);
+    } else {
+      setJobDescriptionFile(null);
     }
   };
 

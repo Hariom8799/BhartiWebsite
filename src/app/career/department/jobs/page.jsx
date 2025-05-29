@@ -257,13 +257,20 @@ const Jobs = () => {
                     {job.jobDescriptionFile && (
                       <div className="flex gap-2">
                         {/* View Button */}
+                        <Link
+                          href={job.jobDescriptionFile}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          title="View Job Description"
+                         >
                         <button
-                          onClick={() => handlePdfView(job.jobDescriptionFile, job.nameOfPosition)}
+                         
                           title="View Job Description"
                           className="text-primary hover:text-blue-800 p-1 transition-colors"
                         >
                           {getFileIcon(job.jobDescriptionFile)}
                         </button>
+                        </Link>
 
                         {/* Download Button */}
                         <a
