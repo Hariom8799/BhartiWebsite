@@ -3,10 +3,28 @@ import { Button } from "@mui/material";
 import HomeSlider from "./components/HomeSlider";
 import SkillsDevelopmentProgrames from "./components/SkillsDevelopmentProgrames";
 import RecentJobs from "./components/CertificateProgram";
+import { useSiteContext } from "@/context/siteContext";
 export default function Home() {
+  const { aboutData, loading, error } = useSiteContext();
+
+  if (loading.aboutData) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
   return (
+    
     <>
       <HomeSlider />
+
+      <h2 className="text-[35px] font-extrabold leading-[50px] pr-5 text-gray-800 text-center">
+        उत्तराखंड सरकार आपके द्वार
+      </h2>
 
       <div className="homeSection3 mb-16 mt-10">
         <div className="container">
@@ -14,7 +32,7 @@ export default function Home() {
             <div className="left w-[40%]">
               <div className="rounded-lg overflow-hidden group">
                 <img
-                  src={"../about-img.jpg"}
+                  src={aboutData.images?.[0] || "../about-img.jpg"}
                   className="w-full transition-all group-hover:scale-105"
                   alt="image"
                 />
@@ -27,17 +45,31 @@ export default function Home() {
               </span>
 
               <h2 className="text-[35px] font-extrabold leading-[50px] pr-5 text-gray-800">
-                Empowering Uttarakhand’s Youth Through Opportunity
+                {aboutData.title ||
+                  "Empowering Uttarakhand's Youth Through Opportunity"}
               </h2>
 
-              <p className="mt-4 text-[17px] text-gray-800 leading-[28px]">
-                In a progressive step towards good governance and citizen
-                empowerment, the Government of Uttarakhand has launched the{" "}
-                <strong>Uttarakhand Bharti Portal</strong> — a unified digital
-                platform designed to connect the youth of the state with
-                employment opportunities across various sectors.
-              </p>
-
+              <div className="mt-4 text-[17px] text-gray-800 leading-[28px]">
+                {aboutData.shortDescription ? (
+                  aboutData.shortDescription
+                    .split("\r\n\r\n")
+                    .map((paragraph, index) => (
+                      <p key={index} className={index > 0 ? "mt-4" : ""}>
+                        {paragraph.includes("Uttarakhand Bharti Portal") ? (
+                          <>
+                            {paragraph.split("Uttarakhand Bharti Portal")[0]}
+                            <strong>Uttarakhand Bharti Portal</strong>
+                            {paragraph.split("Uttarakhand Bharti Portal")[1]}
+                          </>
+                        ) : (
+                          paragraph
+                        )}
+                      </p>
+                    ))
+                ) : (
+                  <p>Loading content...</p>
+                )}
+              </div>
               <br />
 
               <Button className="btn-custom" href="/about">

@@ -1,14 +1,17 @@
+// pages/contact/ContactPage.js
 "use client";
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { MdOutlineEmail, MdOutlinePhone } from "react-icons/md";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import { FaFacebookF, FaPinterestP, FaInstagram } from "react-icons/fa";
-import { AiOutlineYoutube } from "react-icons/ai";
+import { FaFacebookF, FaPinterestP, FaInstagram, FaTwitter, FaLinkedinIn } from "react-icons/fa";
 import Link from "next/link";
 import toast from "react-hot-toast";
+import { useSiteContext } from "../../context/siteContext"; 
 
 const ContactPage = () => {
+    const { siteSettings, loading, error } = useSiteContext();
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -57,6 +60,50 @@ const ContactPage = () => {
         }
     };
 
+    // Memoize social media links to prevent re-creation on every render
+    const socialLinks = useMemo(() => {
+        const links = [];
+
+        if (siteSettings.facebook) {
+            links.push({ icon: <FaFacebookF />, href: siteSettings.facebook, name: "Facebook" });
+        }
+        if (siteSettings.instagram) {
+            links.push({ icon: <FaInstagram />, href: siteSettings.instagram, name: "Instagram" });
+        }
+        if (siteSettings.twitter) {
+            links.push({ icon: <FaTwitter />, href: siteSettings.twitter, name: "Twitter" });
+        }
+        if (siteSettings.linkedin) {
+            links.push({ icon: <FaLinkedinIn />, href: siteSettings.linkedin, name: "LinkedIn" });
+        }
+
+        return links;
+    }, [siteSettings.facebook, siteSettings.instagram, siteSettings.twitter, siteSettings.linkedin]);
+
+    if (loading.siteSettings) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+            </div>
+        );
+    }
+
+    if (error.siteSettings) {
+        return (
+            <div className="flex items-center justify-center min-h-screen">
+                <div className="text-center">
+                    <p className="text-red-600 mb-4">Error loading site settings</p>
+                    <button
+                        onClick={() => window.location.reload()}
+                        className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    >
+                        Retry
+                    </button>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
             <div className="innerBanner flex items-center justify-center">
@@ -87,6 +134,7 @@ const ContactPage = () => {
                                         className="w-full"
                                         value={formData.name}
                                         onChange={handleChange}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group w-full my-3">
@@ -94,9 +142,11 @@ const ContactPage = () => {
                                         name="email"
                                         label="Your Email"
                                         variant="standard"
+                                        type="email"
                                         className="w-full"
                                         value={formData.email}
                                         onChange={handleChange}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group w-full my-3">
@@ -107,6 +157,7 @@ const ContactPage = () => {
                                         className="w-full"
                                         value={formData.contactNo}
                                         onChange={handleChange}
+                                        required
                                     />
                                 </div>
                                 <div className="form-group w-full my-3">
@@ -119,6 +170,7 @@ const ContactPage = () => {
                                         rows={4}
                                         value={formData.message}
                                         onChange={handleChange}
+                                        required
                                     />
                                 </div>
 
@@ -144,46 +196,74 @@ const ContactPage = () => {
                                 can fill in the following contact form.
                             </p>
 
-                            <p className="text-gray-800 flex items-center gap-1 my-2">
-                                <MdOutlineEmail size={22} /> text@gmail.com
-                            </p>
-                            <p className="text-gray-800 flex items-center gap-1 my-2">
-                                <MdOutlinePhone size={22} /> 011-874754552
-                            </p>
+                            {/* Dynamic Contact Information */}
+                            {siteSettings.email && (
+                                <p className="text-gray-800 flex items-center gap-1 my-2">
+                                    <MdOutlineEmail size={22} />
+                                    <a href={`mailto:${siteSettings.email}`} className="hover:text-blue-600 transition-colors">
+                                        {siteSettings.email}
+                                    </a>
+                                </p>
+                            )}
 
-                            <h4 className="text-[18px] font-bold text-gray-800 mt-5 mb-4">
-                                Follow Us
-                            </h4>
+                            {siteSettings.contactNo && (
+                                <p className="text-gray-800 flex items-center gap-1 my-2">
+                                    <MdOutlinePhone size={22} />
+                                    <a href={`tel:${siteSettings.contactNo}`} className="hover:text-blue-600 transition-colors">
+                                        {siteSettings.contactNo}
+                                    </a>
+                                </p>
+                            )}
 
-                            <ul className="flex items-center gap-2">
-                                {[
-                                    { icon: <FaFacebookF />, href: "/" },
-                                    { icon: <AiOutlineYoutube />, href: "/" },
-                                    { icon: <FaPinterestP />, href: "/" },
-                                    { icon: <FaInstagram />, href: "/" },
-                                ].map((item, idx) => (
-                                    <li key={idx}>
-                                        <Link
-                                            href={item.href}
-                                            target="_blank"
-                                            className="w-[35px] h-[35px] rounded-full border border-[rgba(0,0,0,0.2)] flex items-center justify-center group hover:bg-primary transition-all"
-                                        >
-                                            <span className="text-[17px] text-gray-600 group-hover:text-white">
-                                                {item.icon}
-                                            </span>
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
+                            {/* Dynamic Social Media Links */}
+                            {socialLinks.length > 0 && (
+                                <>
+                                    <h4 className="text-[18px] font-bold text-gray-800 mt-5 mb-4">
+                                        Follow Us
+                                    </h4>
 
-                            <br />
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1767557.6473758828!2d77.98912350520003!3d30.08670972957029!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3909dcc202279c09%3A0x7c43b63689cc005!2sUttarakhand!5e0!3m2!1sen!2sin!4v1748175681800!5m2!1sen!2sin"
-                                style={{ width: "100%", height: "300px", border: "0px" }}
-                                allowFullScreen=""
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                            ></iframe>
+                                    <ul className="flex items-center gap-2">
+                                        {socialLinks.map((item, idx) => (
+                                            <li key={idx}>
+                                                <Link
+                                                    href={item.href}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="w-[35px] h-[35px] rounded-full border border-[rgba(0,0,0,0.2)] flex items-center justify-center group hover:bg-primary transition-all"
+                                                    title={item.name}
+                                                >
+                                                    <span className="text-[17px] text-gray-600 group-hover:text-white">
+                                                        {item.icon}
+                                                    </span>
+                                                </Link>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </>
+                            )}
+
+                            {/* Dynamic Map Iframe */}
+                            {siteSettings.iframe && (
+                                <div
+                                    className="mt-6"
+                                    dangerouslySetInnerHTML={{ __html: siteSettings.iframe }}
+                                    key="map-iframe"
+                                />
+                            )}
+
+                            {/* Fallback Map if no iframe is provided */}
+                            {!siteSettings.iframe && (
+                                <div className="mt-6">
+                                    <iframe
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1767557.6473758828!2d77.98912350520003!3d30.08670972957029!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3909dcc202279c09%3A0x7c43b63689cc005!2sUttarakhand!5e0!3m2!1sen!2sin!4v1748175681800!5m2!1sen!2sin"
+                                        style={{ width: "100%", height: "300px", border: "0px" }}
+                                        allowFullScreen=""
+                                        loading="lazy"
+                                        referrerPolicy="no-referrer-when-downgrade"
+                                        title="Location Map"
+                                    ></iframe>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

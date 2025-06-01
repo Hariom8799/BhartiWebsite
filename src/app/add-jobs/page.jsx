@@ -87,7 +87,7 @@ const AddJob = () => {
         }
       });
 
-      formData.append("departmentType", user.departmentType);
+      formData.append("departmentType", user.departmentTypeRef);
       formData.append("departmentId", user.department._id);
 
       // Add file if selected
@@ -219,8 +219,30 @@ const AddJob = () => {
     }
   };
 
-  if (isLoading) return <p>Loading...</p>;
-  if (!user) return <p className="text-center py-10">Please login to view jobs.</p>;
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center min-h-[calc(70vh)]">
+        <div className="text-center">
+          <p className="text-red-600 mb-4">You must be logged in to access this page.</p>
+          <Button variant="contained" color="primary" onClick={() => window.location.href = "/department-login"}>
+            Login
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (isLoading){
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+  
 
 
   return (

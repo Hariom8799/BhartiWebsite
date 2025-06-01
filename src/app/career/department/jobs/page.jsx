@@ -19,6 +19,11 @@ const Jobs = () => {
   const [error, setError] = useState(null);
   const [isMounted, setIsMounted] = useState(false);
 
+  const deptMap = {
+    "Govt": "GovtDept",
+    "Aided": "AidedDept",
+    "Public": "PublicUndertaking"
+  }
   // PDF Viewer state
   const [pdfDialog, setPdfDialog] = useState({
     open: false,
@@ -47,13 +52,13 @@ const Jobs = () => {
     setIsMounted(true);
     const { id, type } = getQueryParams();
     setDepartmentId(id);
-    setDepartmentType(type);
+    setDepartmentType(deptMap[type] || type);
 
     // Listen for URL changes (e.g., back/forward navigation)
     const handlePopState = () => {
       const { id, type } = getQueryParams();
       setDepartmentId(id);
-      setDepartmentType(type);
+      setDepartmentType(deptMap[type] || type);
     };
 
     window.addEventListener("popstate", handlePopState);
