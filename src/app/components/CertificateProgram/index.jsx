@@ -31,7 +31,7 @@ const CertificateProgram = () => {
     }, []);
 
     return (
-        <section className="py-10 upcomingEvents relative">
+        <section className="py-10 upcomingEvents relative" id="certificate-programs">
             <div className="container">
                 <div className="wrapper relative z-[99]">
                     <div className="flex items-center justify-between">

@@ -190,11 +190,11 @@ const Department = () => {
   const getTitle = () => {
     switch (type) {
       case "govt":
-        return "Government Departments";
+        return "Government Department";
       case "aided":
-        return "Aided Departments";
+        return "Aided Department";
       case "public":
-        return "Public Undertakings";
+        return "Public Undertaking";
       default:
         return "Departments";
     }
@@ -209,7 +209,8 @@ const Department = () => {
             {getTitle()}
           </h2>
           <div className="flex justify-center mt-8">
-            <CircularProgress />
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+            
           </div>
         </div>
       </section>
@@ -237,11 +238,9 @@ const Department = () => {
           {getTitle()}
         </h2>
 
-        {departments.length === 0 ? (
-          <p className="text-center mt-5 text-gray-600">
-            No departments available.
-          </p>
-        ) : (
+        {
+        
+        (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-6">
             {departments.map((dept) => {
               const hasJobs = dept.jobCount > 0;

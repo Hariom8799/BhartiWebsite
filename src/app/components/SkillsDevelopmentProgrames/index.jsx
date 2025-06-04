@@ -31,7 +31,7 @@ const SkillsDevelopmentProgrames = () => {
     }, []);
 
     return (
-        <section className="py-10 upcomingEvents relative bg-secondary">
+        <section className="py-10 upcomingEvents relative bg-secondary" id="skills-development-programs">
             <div className="container">
                 <div className="wrapper relative z-[99]">
                     <div className="flex items-center justify-between">

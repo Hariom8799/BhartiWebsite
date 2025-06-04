@@ -6,6 +6,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Button } from "@mui/material";
+import Link from "next/link";
 
 const HomeSlider = () => {
   const [counts, setCounts] = useState({
@@ -137,18 +138,26 @@ const HomeSlider = () => {
               <Button className="w-full !bg-gray-700 hover:!bg-primary !text-white !font-[600] !capitalize !text-[12px]">
                 Recent Jobs
               </Button>
-              <Button className="w-full !bg-gray-600 hover:!bg-primary !text-white !font-[600] !capitalize !text-[12px]">
+              <Link href={"#skills-development-programs"} >
+                <Button className="w-full !bg-gray-600 hover:!bg-primary !text-white !font-[600] !capitalize !text-[12px]">
                 Skill Development Programs
-              </Button>
-              <Button className="w-full !bg-gray-700 hover:!bg-primary !text-white !font-[600] !capitalize !text-[12px]">
+                </Button>
+              </Link>
+              <Link href={"#certificate-programs"} >
+                <Button className="w-full !bg-gray-700 hover:!bg-primary !text-white !font-[600] !capitalize !text-[12px]">
                 Certificate Programs
-              </Button>
-              <Button className="w-full !bg-gray-600 hover:!bg-primary !text-white !font-[600] !capitalize !text-[12px]">
+                </Button>
+              </Link>
+              <Link href={"#footer"} >
+                <Button className="w-full !bg-gray-600 hover:!bg-primary !text-white !font-[600] !capitalize !text-[12px]">
                 External Links
-              </Button>
-              <Button className="w-full !bg-gray-700 hover:!bg-primary !text-white !font-[600] !capitalize !text-[12px]">
+                </Button>
+              </Link>
+              <Link href={"#footer"} >
+                <Button className="w-full !bg-gray-700 hover:!bg-primary !text-white !font-[600] !capitalize !text-[12px]">
                 Social Media
-              </Button>
+                </Button>
+              </Link>
               <Button className="w-full !bg-gray-600 hover:!bg-primary !text-white !font-[600] !capitalize !text-[12px]">
                 Feedback & Complaints
               </Button>

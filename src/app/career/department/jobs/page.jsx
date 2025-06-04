@@ -189,7 +189,7 @@ const Jobs = () => {
             Jobs
           </h2>
           <div className="flex justify-center mt-8">
-            <CircularProgress />
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
           </div>
         </div>
       </section>
@@ -217,11 +217,7 @@ const Jobs = () => {
             Jobs
           </h2>
 
-          {jobs.length === 0 ? (
-            <p className="text-center mt-5 text-gray-600">
-              No jobs available for this department.
-            </p>
-          ) : (
+          { (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 py-5">
               {jobs.map((job) => (
                 <div
@@ -253,7 +249,7 @@ const Jobs = () => {
 
                   <div className="flex justify-between items-center mt-3">
                     <Link
-                      href="#"
+                      href="https://www.upcl.org/recruitment/"
                       className="text-primary text-[15px] font-bold hover:text-gray-800"
                     >
                       View & Apply
