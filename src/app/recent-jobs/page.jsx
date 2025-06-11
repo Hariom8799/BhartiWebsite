@@ -40,7 +40,7 @@ const RecentJobs = () => {
         <section className="section py-12 min-h-[70vh]">
             <div className="container">
                 <div className="mb-10 text-center">
-                    <h3 className="text-[28px] text-gray-700 font-bold">Recent Department Jobs</h3>
+                    <h3 className="text-[28px] text-gray-700 font-bold">Recent Jobs</h3>
                     <p className="text-[17px] text-gray-700">Jobs currently visible to the public.</p>
                 </div>
 
@@ -48,6 +48,7 @@ const RecentJobs = () => {
                     <table className="min-w-full text-sm text-left border border-gray-200 table">
                         <thead className="bg-gray-100">
                             <tr>
+                                <th className="px-4 py-2 border">Position</th>
                                 <th className="px-4 py-2 border">Position</th>
                                 <th className="px-4 py-2 border">Location</th>
                                 <th className="px-4 py-2 border">Vacancies</th>
@@ -57,8 +58,9 @@ const RecentJobs = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {jobs.map((job) => (
+                            {jobs.map((job,index) => (
                                 <tr key={job._id}>
+                                    <td className="px-4 py-2 border">{index+1}</td>
                                     <td className="px-4 py-2 border">{job.nameOfPosition}</td>
                                     <td className="px-4 py-2 border">{job.location}</td>
                                     <td className="px-4 py-2 border">{job.totalVacancies}</td>
