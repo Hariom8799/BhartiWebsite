@@ -18,9 +18,11 @@ export default function Home() {
     );
   }
   return (
-
     <>
       <HomeSlider />
+      <h2 className="text-[35px] font-extrabold leading-[50px] text-center text-gray-800 ">
+        उत्तराखंड सरकार आपके द्वार
+      </h2>
 
       <div className="homeSection3 mb-16 mt-10">
         <div className="container">
@@ -34,16 +36,10 @@ export default function Home() {
                 />
               </div>
             </div>
-
             <div className="right  w-full lg:w-[60%]">
-             
               <span className="text-primary text-[16px] uppercase font-bold">
                 Who we are
               </span>
-
-               <h2 className="text-[35px] font-extrabold leading-[50px] pr-5 text-gray-800 ">
-                उत्तराखंड सरकार आपके द्वार
-              </h2>
 
               <h2 className="text-[35px] font-extrabold leading-[50px] pr-5 text-gray-800">
                 {aboutData.title ||

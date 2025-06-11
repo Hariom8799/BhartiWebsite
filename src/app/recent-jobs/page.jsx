@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Button } from "@mui/material";
+import dayjs from "dayjs";
 import axios from "axios";
 
 const RecentJobs = () => {
@@ -50,7 +51,6 @@ const RecentJobs = () => {
                                 <th className="px-4 py-2 border">Position</th>
                                 <th className="px-4 py-2 border">Location</th>
                                 <th className="px-4 py-2 border">Vacancies</th>
-                                <th className="px-4 py-2 border">Filled</th>
                                 <th className="px-4 py-2 border">Posted</th>
                                 <th className="px-4 py-2 border">Last Date</th>
                                 <th className="px-4 py-2 border">Department</th>
@@ -62,9 +62,8 @@ const RecentJobs = () => {
                                     <td className="px-4 py-2 border">{job.nameOfPosition}</td>
                                     <td className="px-4 py-2 border">{job.location}</td>
                                     <td className="px-4 py-2 border">{job.totalVacancies}</td>
-                                    <td className="px-4 py-2 border">{job.noOfFilledPosition ?? 0}</td>
-                                    <td className="px-4 py-2 border">{job.postedOn?.split("T")[0]}</td>
-                                    <td className="px-4 py-2 border">{job.lastDateOfSubmission?.split("T")[0]}</td>
+                                    <td className="px-4 py-2 border">{dayjs(job.postedOn).format("DD-MM-YYYY")}</td>
+                                    <td className="px-4 py-2 border">{dayjs(job.lastDateOfSubmission).format("DD-MM-YYYY")}</td>
                                     <td className="px-4 py-2 border">{job.departmentId?.name || "N/A"}</td>
                                 </tr>
                             ))}
