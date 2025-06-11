@@ -5,6 +5,8 @@ import "./globals.css";
 import "./responsive.css";
 import {AuthProvider} from "../context/AuthContext"
 import {SiteProvider} from "../context/siteContext"
+import { LanguageProvider } from "@/context/LanguageContext";
+import Disclaimer from "./components/Disclaimer";
 
 export const metadata = {
   title: "Bharti Job Portal",
@@ -20,14 +22,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <AuthProvider>
-          <SiteProvider>
-            <Header />
-            <Toaster position="top-center" reverseOrder={false} />
-            {children}
-            <Footer />
-          </SiteProvider>
-        </AuthProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            <SiteProvider>
+              <Header />
+              <Toaster position="top-center" reverseOrder={false} />
+              {children}
+              <Footer />
+              <Disclaimer/>
+            </SiteProvider>
+          </AuthProvider>
+        </LanguageProvider>
       </body>
     </html>
   );

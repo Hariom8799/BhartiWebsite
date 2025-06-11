@@ -7,8 +7,10 @@ import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Button } from "@mui/material";
 import Link from "next/link";
+import { useSiteContext } from "@/context/siteContext"; 
 
 const HomeSlider = () => {
+  const { sliderData, loading, error } = useSiteContext(); 
   const [counts, setCounts] = useState({
     publishedCount2024: 0,
     filledCount2024: 0,
@@ -115,7 +117,7 @@ const HomeSlider = () => {
             </div>
           </div>
 
-          <div className="homeBanner overflow-hidden rounded-md  w-[100%] lg:w-[70%] order-1 lg:order-2">
+          {/* <div className="homeBanner overflow-hidden rounded-md  w-[100%] lg:w-[70%] order-1 lg:order-2">
             <Swiper
               navigation={false}
               loop={true}
@@ -131,11 +133,44 @@ const HomeSlider = () => {
                 <img src={"../slide2.jpg"} alt="slide" className="w-full" />
               </SwiperSlide>
             </Swiper>
+          </div> */}
+
+          <div className="homeBanner overflow-hidden rounded-md  w-[100%] lg:w-[70%] order-1 lg:order-2">
+            {loading.sliderData ? (
+              <p className="text-white text-center py-10">Loading sliders...</p>
+            ) : error.sliderData ? (
+              <p className="text-red-500 text-center py-10">{error.sliderData}</p>
+            ) : sliderData.length === 0 ? (
+              <p className="text-gray-400 text-center py-10">No active slides available.</p>
+            ) : (
+              <Swiper
+                navigation={false}
+                loop={true}
+                pagination={{ clickable: true }}
+                autoplay={{ delay: 2500, disableOnInteraction: false }}
+                modules={[Navigation, Pagination, Autoplay]}
+                className="mySwiper"
+              >
+                {sliderData.map((slide) => (
+                  <SwiperSlide key={slide._id}>
+                    <img
+                      src={slide.mainImg}
+                      alt={slide.title}
+                      className="w-full object-cover"
+                    />
+                    {/* <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white p-4 rounded">
+                      <h3 className="text-lg font-semibold">{slide.title}</h3>
+                      <p className="text-sm">{slide.description}</p>
+                    </div> */}
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            )}
           </div>
 
           <div className="col1  w-[100%] lg:w-[15%] flex flex-col gap-3 order-3 lg:order-3">
             <div className="bg-gray-700 p-4 h-[342px] rounded-md flex flex-col gap-3">
-              <Link href={"/career"}>
+              <Link href={"/recent-jobs"}>
               <Button className="w-full !bg-gray-700 hover:!bg-primary !text-white !font-[600] !capitalize !text-[12px]">
                 Recent Jobs
               </Button>

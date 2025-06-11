@@ -252,7 +252,7 @@ const Jobs = () => {
                       href="https://www.upcl.org/recruitment/"
                       className="text-primary text-[15px] font-bold hover:text-gray-800"
                     >
-                      View & Apply
+                      Click To Apply
                     </Link>
 
                     {job.jobDescriptionFile && (
@@ -269,7 +269,8 @@ const Jobs = () => {
                           title="View Job Description"
                           className="text-primary hover:text-blue-800 p-1 transition-colors"
                         >
-                          {getFileIcon(job.jobDescriptionFile)}
+                          {/* {getFileIcon(job.jobDescriptionFile)} */}
+                          View More
                         </button>
                         </Link>
 

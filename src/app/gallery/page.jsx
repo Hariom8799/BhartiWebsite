@@ -81,7 +81,7 @@ const Gallery = () => {
                 src={image.image}
                 alt={image.title}
                 loading="lazy"
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300 shadow-[0_0_20px_#333]"
+                className="w-full h-full object-cover  transition-all duration-300 shadow-[0_0_20px_#333]"
               />
               <figcaption className="absolute bottom-0 left-0 w-full h-[20%] px-6 py-4 text-white font-medium text-sm md:text-base opacity-0 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-300 flex items-end bg-gradient-to-t from-black/50 to-transparent rounded-b-[10px]">
                 {image.title}

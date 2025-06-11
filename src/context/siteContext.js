@@ -1,4 +1,3 @@
-// context/SiteContext.js
 "use client";
 import React, { createContext, useContext, useState, useEffect } from "react";
 
@@ -6,7 +5,6 @@ export const SiteContext = createContext();
 
 export const useSiteContext = () => {
   const context = useContext(SiteContext);
-
   if (!context) {
     throw new Error("useSiteContext must be used within a SiteProvider");
   }
@@ -38,14 +36,18 @@ export const SiteProvider = ({ children }) => {
     updatedAt: "",
   });
 
+  const [sliderData, setSliderData] = useState([]);
+
   const [loading, setLoading] = useState({
     siteSettings: true,
     aboutData: true,
+    sliderData: true,
   });
 
   const [error, setError] = useState({
     siteSettings: null,
     aboutData: null,
+    sliderData: null,
   });
 
   // Fetch site settings
@@ -55,13 +57,9 @@ export const SiteProvider = ({ children }) => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/site-setting`
       );
-
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
       const data = await response.json();
-
       if (data.success && data.data) {
         setSiteSettings(data.data);
         setError((prev) => ({ ...prev, siteSettings: null }));
@@ -83,15 +81,10 @@ export const SiteProvider = ({ children }) => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/about-us`
       );
-
-      if (!response.ok) {
+      if (!response.ok)
         throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
       const data = await response.json();
-
       if (data.success && data.data) {
-        // Map the API response to our state structure
         setAboutData({
           _id: data.data._id || "",
           title: data.data.title || "",
@@ -115,45 +108,58 @@ export const SiteProvider = ({ children }) => {
     }
   };
 
-  // Fetch data on mount
+  // Fetch slider data
+  const fetchSliderData = async () => {
+    try {
+      setLoading((prev) => ({ ...prev, sliderData: true }));
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/image-sliders`
+      );
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      if (data.success && data.data) {
+        setSliderData(data.data);
+        setError((prev) => ({ ...prev, sliderData: null }));
+      } else {
+        throw new Error(data.message || "Failed to fetch slider data");
+      }
+    } catch (error) {
+      console.error("Error fetching slider data:", error);
+      setError((prev) => ({ ...prev, sliderData: error.message }));
+    } finally {
+      setLoading((prev) => ({ ...prev, sliderData: false }));
+    }
+  };
+
   useEffect(() => {
     fetchSiteSettings();
     fetchAboutData();
+    fetchSliderData();
   }, []);
 
-  // Refresh functions for manual data refresh
-  const refreshSiteSettings = () => {
-    fetchSiteSettings();
-  };
-
-  const refreshAboutData = () => {
-    fetchAboutData();
-  };
-
+  const refreshSiteSettings = () => fetchSiteSettings();
+  const refreshAboutData = () => fetchAboutData();
+  const refreshSliderData = () => fetchSliderData();
   const refreshAllData = () => {
     fetchSiteSettings();
     fetchAboutData();
+    fetchSliderData();
   };
 
   const value = {
-    // Data
     siteSettings,
     aboutData,
-
-    // Loading states
+    sliderData,
     loading,
-
-    // Error states
     error,
-
-    // Refresh functions
     refreshSiteSettings,
     refreshAboutData,
+    refreshSliderData,
     refreshAllData,
-
-    // Update functions (for optimistic updates)
     setSiteSettings,
     setAboutData,
+    setSliderData,
   };
 
   return <SiteContext.Provider value={value}>{children}</SiteContext.Provider>;
