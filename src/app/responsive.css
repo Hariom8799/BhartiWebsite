@@ -1,0 +1,28 @@
+@media only screen and (min-width:320px) and (max-width:992px){
+   nav{gap: 5px !important; padding: 25px 15px !important; opacity: 0; left: -100%; }
+   nav.open{left: 0; opacity: 1;}
+   footer nav{opacity: 1 !important; left: 0px !important;}
+   nav button::after{display: none !important;}
+   nav button {width: 100% !important; justify-content: start !important;}
+
+   .btn-wrap button{width: auto !important;}
+
+   .homeBanner img{height: auto; object-fit: cover; cursor: move !important;}   
+   
+   .table *{white-space: nowrap;}
+
+   
+}
+
+
+@media only screen and (min-width:320px) and (max-width:767px){
+    .homeSection3 h2{font-size: 25px !important; line-height: 35px !important;}
+
+    .upcomingEvents  h2{font-size: 25px !important; line-height: 35px !important;}
+
+    .careerPage .card{width: 100% !important;}
+}
+
+@media only screen and (min-width:767px) and (max-width:992px){
+     .careerPage{grid-template-columns: repeat(3, 1fr) !important; }
+}
