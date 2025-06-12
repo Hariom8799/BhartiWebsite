@@ -62,7 +62,7 @@ const Header = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-5 w-full">
               <Link href="#" className="text-gray-200 text-[14px] flex items-center gap-1 hover:text-white space-x-3">
-                <p>Technical Helpline : +91-9599297453</p>
+                <p>Technical Helpline : 1112233344</p>
                 <p>Timing: Mon-Fri 10:00 AM to 6:00 PM</p>
               </Link>
 

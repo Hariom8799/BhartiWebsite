@@ -8,6 +8,7 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { Button } from "@mui/material";
 import Link from "next/link";
 import { MdArrowRightAlt } from "react-icons/md";
+import Image from "next/image";
 
 const SkillsDevelopmentProgrames = () => {
     const [programs, setPrograms] = useState([]);
@@ -77,13 +78,15 @@ const SkillsDevelopmentProgrames = () => {
                         >
                             {programs.map((program) => (
                                 <SwiperSlide key={program._id}>
-                                    <div className="card bg-white shadow-md rounded-md overflow-hidden group">
+                                    <div className="card min-h-[325px] bg-white shadow-md rounded-md overflow-hidden group">
                                         <Link href={`/details-page/${program._id}?type=skills`}>
-                                            <div className="img rounded-md overflow-hidden relative">
+                                            <div className="img min-h-[180px] w-full relative rounded-md overflow-hidden">
                                                 <img
                                                     src={program.thumbnail}
                                                     alt={program.title}
-                                                    className="w-full transition-all group-hover:scale-105"
+                                                    layout="fill"
+                                                    objectFit="cover"
+                                                    className="min-h-[180px] transition-all duration-300 group-hover:scale-105"
                                                 />
                                                 <span className="bg-primary py-1 px-2 inline-block absolute bottom-2 right-2 z-50 rounded-md text-white text-[12px] font-bold">
                                                     {new Date(program.createdAt).toISOString().split("T")[0]}

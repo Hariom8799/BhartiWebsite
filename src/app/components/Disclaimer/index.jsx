@@ -5,10 +5,10 @@ const Disclaimer = () => {
     return (
         <div className="bg-gray-700 text-gray-200 text-center text-sm py-4 px-4 ">
             <p className="max-w-4xl mx-auto leading-relaxed">
-            यह चिकित्सा स्वास्थ्य एवं परिवार कल्याण विभाग, उत्तराखंड की आधिकारिक वेबसाइट है।
+                {`This is the official website of the Chief Minister’s Office, Uttarakhand, Government of India.`}
             </p>
-            <p className="max-w-4xl mx-auto leading-relaxed">इस वेबसाइट पर प्रकाशित विषयवस्तु व उसके प्रबंधन का कार्य चिकित्सा स्वास्थ्य एवं परिवार कल्याण विभाग, उत्तराखंड द्वारा किया जा रहा है।</p>
-            <p className="max-w-4xl mx-auto leading-relaxed">{`इस वेबसाइट के बारे में किसी भी प्रश्न के लिए, " वेब सूचना प्रबंधक " से संपर्क करें।`}</p>
+            <p className="max-w-4xl mx-auto leading-relaxed">{`The content on this website is published and managed by the Chief Minister’s Office, Uttarakhand.`}</p>
+            <p className="max-w-4xl mx-auto leading-relaxed">{`For any queries related to the content or functioning of this website, please contact the Web Information Manager.`}</p>
 
         </div>
     );
