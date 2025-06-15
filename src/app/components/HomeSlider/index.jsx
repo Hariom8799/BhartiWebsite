@@ -43,24 +43,24 @@ const HomeSlider = () => {
   return (
     <>
       <div className="flex gap-4 py-8">
-        <div className="container flex gap-4 flex-col lg:flex-row">
-          <div className="col1 w-[100%]  lg:w-[15%] order-2 lg:order-1">
+        <div className="container flex gap-4 flex-col lg:flex-row ">
+          <div className="col1 w-[100%]  lg:w-[15%] order-2 lg:order-1 ">
             <div className="overflow-hidden rounded-md">
               {/* 2024-2025 JOBS (Dynamic) */}
               <h4 className="bg-primary text-gray-200 p-2 text-center text-[14px] font-bold">
                 2024-2025 JOBS
               </h4>
               <div className="flex items-center gap-0">
-                <div className="w-[50%] bg-gray-700 border border-[rgba(255,255,255,0.1)] border-t-0 border-b-0 border-l-0">
-                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[13px] justify-center">
+                <div className="w-[50%] bg-gray-700 border border-[rgba(255,255,255,0.1)] border-t-0 border-b-0 border-l-0 py-1">
+                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[14px] justify-center">
                     Published
                   </h4>
                   <h5 className="bg-gray-700 flex items-center text-white text-center justify-center text-[18px] pb-2 transform scale-75">
                     {counts.publishedCount2024}
                   </h5>
                 </div>
-                <div className="w-[50%] bg-gray-700">
-                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[13px] justify-center">
+                <div className="w-[50%] bg-gray-700 py-1">
+                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[14px] justify-center">
                     Filled
                   </h4>
                   <h5 className="bg-gray-700 flex items-center text-white text-center justify-center text-[18px] pb-2 transform scale-75">
@@ -74,16 +74,16 @@ const HomeSlider = () => {
                 2023-2024 JOBS
               </h4>
               <div className="flex items-center gap-0">
-                <div className="w-[50%] bg-gray-700 border border-[rgba(255,255,255,0.1)] border-t-0 border-b-0 border-l-0">
-                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[13px] justify-center">
+                <div className="w-[50%] bg-gray-700 border border-[rgba(255,255,255,0.1)] border-t-0 border-b-0 border-l-0 py-1">
+                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[14px] justify-center">
                     Published
                   </h4>
                   <h5 className="bg-gray-700 flex items-center text-white text-center justify-center text-[18px] pb-2 transform scale-75">
                     22,1234
                   </h5>
                 </div>
-                <div className="w-[50%] bg-gray-700">
-                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[13px] justify-center">
+                <div className="w-[50%] bg-gray-700 py-1">
+                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[14px] justify-center">
                     Filled
                   </h4>
                   <h5 className="bg-gray-700 flex items-center text-white text-center justify-center text-[18px] pb-2 transform scale-75">
@@ -98,7 +98,7 @@ const HomeSlider = () => {
               </h4>
               <div className="flex items-center gap-0">
                 <div className="w-[50%] bg-gray-700 border border-[rgba(255,255,255,0.1)] border-t-0 border-b-0 border-l-0">
-                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[13px] justify-center">
+                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[14px] justify-center">
                     Published
                   </h4>
                   <h5 className="bg-gray-700 flex items-center text-white text-center justify-center text-[18px] pb-2 transform scale-75">
@@ -106,7 +106,7 @@ const HomeSlider = () => {
                   </h5>
                 </div>
                 <div className="w-[50%] bg-gray-700">
-                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[13px] justify-center">
+                  <h4 className="flex items-center text-gray-200 p-2 text-center bg-gray-700 text-[14px] justify-center">
                     Filled
                   </h4>
                   <h5 className="bg-gray-700 flex items-center text-white text-center justify-center text-[18px] pb-2 transform scale-75">
@@ -116,24 +116,6 @@ const HomeSlider = () => {
               </div>
             </div>
           </div>
-
-          {/* <div className="homeBanner overflow-hidden rounded-md  w-[100%] lg:w-[70%] order-1 lg:order-2">
-            <Swiper
-              navigation={false}
-              loop={true}
-              pagination={{ clickable: true }}
-              autoplay={{ delay: 2500, disableOnInteraction: false }}
-              modules={[Navigation, Pagination, Autoplay]}
-              className="mySwiper"
-            >
-              <SwiperSlide>
-                <img src={"../slide1.jpg"} alt="slide" className="w-full" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={"../slide2.jpg"} alt="slide" className="w-full" />
-              </SwiperSlide>
-            </Swiper>
-          </div> */}
 
           <div className="homeBanner overflow-hidden rounded-md  w-[100%] lg:w-[70%] order-1 lg:order-2">
             {loading.sliderData ? (
