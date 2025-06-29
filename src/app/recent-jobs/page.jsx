@@ -22,9 +22,10 @@ const RecentJobs = () => {
         }
     };
 
-    const isNewJob = (postedOn) => {
-        return dayjs().diff(dayjs(postedOn), "day") <= 7;
+    const isNewJob = (lastDateOfSubmission) => {
+        return dayjs().isBefore(dayjs(lastDateOfSubmission)) || dayjs().isSame(dayjs(lastDateOfSubmission), 'day');
     };
+    
 
 
     useEffect(() => {
@@ -70,7 +71,7 @@ const RecentJobs = () => {
                                     <td className="px-2 py-2 border">
                                         <div className="flex items-center gap-2">
                                             <span>{job.nameOfPosition}</span>
-                                            {isNewJob(job.postedOn) && (
+                                            {isNewJob(job.lastDateOfSubmission) && (
                                                 <Link
                                                     href={`/career/department/jobs?id=${job.departmentId?._id}&type=${job.createdBy?.departmentType}`}
                                                     title="Click to view department jobs"
