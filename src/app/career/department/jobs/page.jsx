@@ -2,14 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { CircularProgress, Dialog, DialogTitle, DialogContent, DialogActions, Button, IconButton } from "@mui/material";
-import { Visibility, PictureAsPdf, GetApp, Close } from "@mui/icons-material";
-import { Document, Page, pdfjs } from 'react-pdf';
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
-import 'react-pdf/dist/esm/Page/TextLayer.css';
-
-// Set up PDF.js worker
-pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+import {  GetApp} from "@mui/icons-material";
 
 const Jobs = () => {
   const [departmentId, setDepartmentId] = useState(null);
@@ -24,16 +17,6 @@ const Jobs = () => {
     "Aided": "AidedDept",
     "Public": "PublicUndertaking"
   }
-  // PDF Viewer state
-  const [pdfDialog, setPdfDialog] = useState({
-    open: false,
-    url: "",
-    title: ""
-  });
-  const [numPages, setNumPages] = useState(null);
-  const [pageNumber, setPageNumber] = useState(1);
-  const [pdfLoading, setPdfLoading] = useState(false);
-  const [pdfError, setPdfError] = useState(null);
 
   // Function to get query parameters from URL
   const getQueryParams = () => {
@@ -93,74 +76,6 @@ const Jobs = () => {
 
     fetchJobs();
   }, [departmentId, departmentType, isMounted]);
-
-  // PDF Document Load Success Handler
-  const onDocumentLoadSuccess = ({ numPages }) => {
-    setNumPages(numPages);
-    setPageNumber(1);
-    setPdfLoading(false);
-    setPdfError(null);
-  };
-
-  // PDF Document Load Error Handler
-  const onDocumentLoadError = (error) => {
-    console.error('PDF load error:', error);
-    setPdfError('Failed to load PDF document');
-    setPdfLoading(false);
-  };
-
-  // Function to handle PDF viewing
-  const handlePdfView = (fileData, jobTitle) => {
-    let url = fileData;
-
-    // Handle both old format (direct URL) and new format (object with URLs)
-    if (typeof fileData === 'object' && fileData.viewUrl) {
-      url = fileData.viewUrl;
-    } else if (typeof fileData === 'string') {
-      url = fileData;
-    }
-
-    const isPdf = url.toLowerCase().includes('.pdf') ||
-      url.toLowerCase().includes('image/upload') ||
-      (typeof fileData === 'object' && fileData.type === 'pdf');
-
-    if (isPdf) {
-      setPdfDialog({ open: true, url: url, title: jobTitle });
-      setPdfLoading(true);
-      setPdfError(null);
-      setNumPages(null);
-      setPageNumber(1);
-    } else {
-      // For images, open directly
-      window.open(url, '_blank');
-    }
-  };
-
-  // Function to close PDF dialog
-  const closePdfDialog = () => {
-    setPdfDialog({ open: false, url: "", title: "" });
-    setNumPages(null);
-    setPageNumber(1);
-    setPdfLoading(false);
-    setPdfError(null);
-  };
-
-  // Function to go to previous page
-  const goToPrevPage = () => {
-    setPageNumber(prevPageNumber => Math.max(prevPageNumber - 1, 1));
-  };
-
-  // Function to go to next page
-  const goToNextPage = () => {
-    setPageNumber(prevPageNumber => Math.min(prevPageNumber + 1, numPages || 1));
-  };
-
-  // Function to get file type icon
-  const getFileIcon = (url) => {
-    const isPdf = url.toLowerCase().includes('.pdf') ||
-      url.toLowerCase().includes('resource_type=raw');
-    return isPdf ? <PictureAsPdf /> : <Visibility />;
-  };
 
   // Function to get download link
   const getDownloadUrl = (fileData) => {
@@ -294,138 +209,7 @@ const Jobs = () => {
       </section>
 
       {/* PDF Viewer Dialog */}
-      <Dialog
-        open={pdfDialog.open}
-        onClose={closePdfDialog}
-        maxWidth="lg"
-        fullWidth
-        PaperProps={{
-          style: {
-            minHeight: '80vh',
-            maxHeight: '90vh'
-          }
-        }}
-      >
-        <DialogTitle sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          paddingBottom: 1
-        }}>
-          <span>{pdfDialog.title}</span>
-          <IconButton onClick={closePdfDialog} size="small">
-            <Close />
-          </IconButton>
-        </DialogTitle>
 
-        <DialogContent sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: 2
-        }}>
-          {pdfLoading && (
-            <div className="flex justify-center items-center py-8">
-              <CircularProgress />
-              <span className="ml-2">Loading PDF...</span>
-            </div>
-          )}
-
-          {pdfError && (
-            <div className="text-center py-8">
-              <p className="text-red-500 mb-4">{pdfError}</p>
-              <Button
-                variant="contained"
-                onClick={() => window.open(pdfDialog.url, '_blank')}
-              >
-                Open in New Tab
-              </Button>
-            </div>
-          )}
-
-          {pdfDialog.url && !pdfError && (
-            <Document
-              file={pdfDialog.url}
-              onLoadSuccess={onDocumentLoadSuccess}
-              onLoadError={onDocumentLoadError}
-              loading={
-                <div className="flex justify-center items-center py-8">
-                  <CircularProgress />
-                  <span className="ml-2">Loading PDF...</span>
-                </div>
-              }
-              error={
-                <div className="text-center py-8">
-                  <p className="text-red-500 mb-4">Failed to load PDF</p>
-                  <Button
-                    variant="contained"
-                    onClick={() => window.open(pdfDialog.url, '_blank')}
-                  >
-                    Open in New Tab
-                  </Button>
-                </div>
-              }
-            >
-              <Page
-                pageNumber={pageNumber}
-                width={Math.min(window.innerWidth * 0.8, 800)}
-                loading={
-                  <div className="flex justify-center items-center py-4">
-                    <CircularProgress size={24} />
-                  </div>
-                }
-              />
-            </Document>
-          )}
-
-          {/* Page Navigation */}
-          {numPages && numPages > 1 && (
-            <div className="flex items-center gap-4 mt-4 p-2 bg-gray-100 rounded">
-              <Button
-                onClick={goToPrevPage}
-                disabled={pageNumber <= 1}
-                variant="outlined"
-                size="small"
-              >
-                Previous
-              </Button>
-
-              <span className="text-sm">
-                Page {pageNumber} of {numPages}
-              </span>
-
-              <Button
-                onClick={goToNextPage}
-                disabled={pageNumber >= numPages}
-                variant="outlined"
-                size="small"
-              >
-                Next
-              </Button>
-            </div>
-          )}
-        </DialogContent>
-
-        <DialogActions sx={{ padding: 2 }}>
-          <Button
-            onClick={() => window.open(pdfDialog.url, '_blank')}
-            variant="outlined"
-          >
-            Open in New Tab
-          </Button>
-          <Button
-            href={getDownloadUrl(pdfDialog.url)}
-            download
-            variant="contained"
-            startIcon={<GetApp />}
-          >
-            Download
-          </Button>
-          <Button onClick={closePdfDialog}>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 };
