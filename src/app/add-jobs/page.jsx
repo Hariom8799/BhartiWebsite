@@ -11,6 +11,12 @@ const AddJob = () => {
   const [editingId, setEditingId] = useState(null);
   const [jobs, setJobs] = useState([]);
 
+  const deptMap = {
+    "Govt": "Government Department",
+    "Aided": "Aided Department",
+    "Public": "Public Undertaking Department"
+  }
+
   const [formFields, setFormFields] = useState({
     nameOfPosition: "",
     totalVacancies: "",
@@ -248,118 +254,199 @@ const AddJob = () => {
   return (
     <section className="section py-12">
       <div className="container">
-        <div className="mb-10">
-          <h3 className="text-[28px] text-gray-700 font-bold">
-            Job Descriptions
-          </h3>
-          <p className="text-[17px] text-gray-700">
-            Fill the form to {editingId ? "update" : "publish"} a department job
-            post.
-          </p>
-        </div>
-
-        <div className="card shadow-md rounded-md bg-white p-5 px-10 mb-10 max-w-3xl">
-          <form className="w-full mt-2 flex gap-5 flex-col">
-            <TextField
-              label="Name of Position"
-              name="nameOfPosition"
-              variant="standard"
-              value={formFields.nameOfPosition}
-              onChange={handleChange}
-            />
-            <TextField
-              label="Total Vacancies"
-              name="totalVacancies"
-              type="number"
-              variant="standard"
-              value={formFields.totalVacancies}
-              onChange={handleChange}
-            />
-            <TextField
-              label="Location"
-              name="location"
-              variant="standard"
-              value={formFields.location}
-              onChange={handleChange}
-            />
-            <TextField
-              label="Last Date of Submission"
-              name="lastDateOfSubmission"
-              type="date"
-              variant="standard"
-              InputLabelProps={{ shrink: true }}
-              value={formFields.lastDateOfSubmission}
-              onChange={handleChange}
-            />
-            <TextField
-              label="Posted On"
-              name="postedOn"
-              type="date"
-              variant="standard"
-              InputLabelProps={{ shrink: true }}
-              value={formFields.postedOn}
-              onChange={handleChange}
-            />
-            <TextField
-              label="Date of Advertisement"
-              name="dateOfAdvertisement"
-              type="date"
-              variant="standard"
-              InputLabelProps={{ shrink: true }}
-              value={formFields.dateOfAdvertisement}
-              onChange={handleChange}
-            />
-            {editingId && (
-              <TextField
-                label="No. of Filled Positions"
-                name="noOfFilledPosition"
-                type="number"
-                variant="standard"
-                value={formFields.noOfFilledPosition}
-                onChange={handleChange}
-              />
-            )}
-
-            <div className="col-span-2 mt-4">
-              <label className="text-gray-700 font-medium text-sm">
-                Upload Job Description File (Optional)
-              </label>
-              <input
-                type="file"
-                onChange={handleFileChange}
-                accept=".pdf,.doc,.docx"
-                className="mt-2 block w-full text-sm"
-              />
+        
+       
+          <div className="mb-5">
+              <h3 className="text-[28px] text-gray-700 font-bold">
+                Job Descriptions
+              </h3>
+              <p className="text-[17px] text-gray-700">
+                Fill the form to {editingId ? "update" : "publish"} a department job
+                post.
+              </p>
             </div>
 
-            <div className="flex items-center mt-5 gap-4">
-              <Button
-                onClick={handleSubmit}
-                disabled={isLoading}
-                className="btn-custom"
-              >
-                <span>
-                  {isLoading
-                    ? "Processing..."
-                    : editingId
-                      ? "Update Job"
-                      : "Publish Job"}
-                </span>
-              </Button>
-              {editingId && (
-                <Button className="btn-border !font-bold" onClick={resetForm}>
-                  Cancel Edit
-                </Button>
-              )}
+        <div className="mb-5 max-w-3xl">
+          <div className="space-y-2 bg-white shadow-md border border-gray-200 rounded-md p-4">
+            <h2 className="text-xl font-bold text-gray-800">
+              Welcome back, <span className="text-blue-600">{user.name}</span>
+            </h2>
+            <div className="space-y-1">
+              <p className="text-sm font-semibold text-gray-700">
+                {deptMap[user.departmentType]}
+              </p>
+              <p className="text-md font-bold text-[#ed3338]">
+                {user?.department?.name}
+              </p>
             </div>
-          </form>
+          </div>
         </div>
 
-        <div className="mt-10">
-          <h3 className="text-xl font-bold mb-4 text-gray-700">
-            All Department Jobs
-          </h3>
-          <div className="overflow-auto bg-white shadow-md p-0 rounded-md">
+          <div className="relative">
+            
+
+          <div className="bg-white shadow-lg rounded-xl border border-gray-100 p-8 mb-10 max-w-3xl">
+              <div className="border-b border-gray-100 pb-4 mb-6">
+                <h4 className="text-lg font-semibold text-gray-800 flex items-center space-x-2">
+                  {/* <span>{editingId ? "✏️" : "➕"}</span> */}
+                  <span>{editingId ? "Edit Job Posting" : "Create New Job Posting"}</span>
+                </h4>
+              </div>
+              <form className="w-full mt-2 flex gap-5 flex-col">
+                <TextField
+                  label="Name of Position"
+                  name="nameOfPosition"
+                  variant="standard"
+                  value={formFields.nameOfPosition}
+                  onChange={handleChange}
+                />
+                <TextField
+                  label="Total Vacancies"
+                  name="totalVacancies"
+                  type="number"
+                  variant="standard"
+                  value={formFields.totalVacancies}
+                  onChange={handleChange}
+                />
+                <TextField
+                  label="Location"
+                  name="location"
+                  variant="standard"
+                  value={formFields.location}
+                  onChange={handleChange}
+                />
+                <TextField
+                  label="Last Date of Submission"
+                  name="lastDateOfSubmission"
+                  type="date"
+                  variant="standard"
+                  InputLabelProps={{ shrink: true }}
+                  value={formFields.lastDateOfSubmission}
+                  onChange={handleChange}
+                />
+                <TextField
+                  label="Posted On"
+                  name="postedOn"
+                  type="date"
+                  variant="standard"
+                  InputLabelProps={{ shrink: true }}
+                  value={formFields.postedOn}
+                  onChange={handleChange}
+                />
+                <TextField
+                  label="Date of Advertisement"
+                  name="dateOfAdvertisement"
+                  type="date"
+                  variant="standard"
+                  InputLabelProps={{ shrink: true }}
+                  value={formFields.dateOfAdvertisement}
+                  onChange={handleChange}
+                />
+                {editingId && (
+                  <TextField
+                    label="No. of Filled Positions"
+                    name="noOfFilledPosition"
+                    type="number"
+                    variant="standard"
+                    value={formFields.noOfFilledPosition}
+                    onChange={handleChange}
+                  />
+                )}
+
+              <div className="mt-6 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-[#ed3338] transition-colors">
+                  <label className="block text-gray-700 font-medium text-sm mb-2">
+                    📄 Job Description File (Optional)
+                  </label>
+                  <input
+                    type="file"
+                    onChange={handleFileChange}
+                    accept=".pdf,.doc,.docx"
+                    className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 cursor-pointer"
+                  />
+                  <p className="text-xs text-gray-500 mt-2">
+                    Accepted formats: PDF, DOC, DOCX (Max: 10MB)
+                  </p>
+                  {jobDescriptionFile && (
+                    <div className="mt-2 flex items-center space-x-2 text-sm text-green-600">
+                      <span>✓</span>
+                      <span>{jobDescriptionFile.name}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* <div className="flex items-center mt-5 gap-4">
+                  <Button
+                    onClick={handleSubmit}
+                    disabled={isLoading}
+                    className="btn-custom"
+                  >
+                    <span>
+                      {isLoading
+                        ? "Processing..."
+                        : editingId
+                          ? "Update Job"
+                          : "Publish Job"}
+                    </span>
+                  </Button>
+                  {editingId && (
+                    <Button className="btn-border !font-bold" onClick={resetForm}>
+                      Cancel Edit
+                    </Button>
+                  )}
+                </div> */}
+                <div className="flex items-center mt-8 gap-4 pt-4 border-t border-gray-200">
+                  <Button
+                    onClick={handleSubmit}
+                    disabled={isLoading}
+                    variant="contained"
+                    size="large"
+                  className="btn-custom"
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center space-x-2">
+                        <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                        <span>Processing...</span>
+                      </div>
+                    ) : (
+                      <span>{editingId ? "🔄 Update Job" : "📝 Publish Job"}</span>
+                    )}
+                  </Button>
+                  {editingId && (
+                    <Button
+                      variant="outlined"
+                      size="large"
+                      onClick={resetForm}
+                      className="!border-gray-300 !text-gray-700 hover:!bg-gray-50 !px-6 !py-3 !rounded-lg !font-medium"
+                    >
+                      ✕ Cancel Edit
+                    </Button>
+                  )}
+                </div>
+              </form>
+            </div>
+
+            
+            
+        
+            
+
+          </div>
+
+          
+
+        
+
+        <div className="mt-12">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className="text-2xl font-bold text-gray-800 flex items-center space-x-2">
+              <span>📋</span>
+              <span>Department Jobs</span>
+            </h3>
+            <div className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+              {jobs.length} {jobs.length === 1 ? 'job' : 'jobs'} posted
+            </div>
+          </div>
+          {/* <div className="overflow-auto bg-white shadow-md p-0 rounded-md">
             <table className="min-w-full text-sm text-left border border-gray-200 table">
               <thead className="bg-gray-100">
                 <tr>
@@ -414,6 +501,77 @@ const AddJob = () => {
                 )}
               </tbody>
             </table>
+          </div> */}
+          <div className="bg-white shadow-lg rounded-xl border border-gray-100 overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="min-w-full text-sm">
+                <thead className="bg-gradient-to-r from-gray-50 to-gray-100">
+                  <tr>
+                    <th className="px-6 py-4 text-left font-semibold text-gray-700 border-b border-gray-200">Position</th>
+                    <th className="px-6 py-4 text-left font-semibold text-gray-700 border-b border-gray-200">Location</th>
+                    <th className="px-6 py-4 text-center font-semibold text-gray-700 border-b border-gray-200">Vacancies</th>
+                    <th className="px-6 py-4 text-center font-semibold text-gray-700 border-b border-gray-200">Filled</th>
+                    <th className="px-6 py-4 text-center font-semibold text-gray-700 border-b border-gray-200">Posted</th>
+                    <th className="px-6 py-4 text-center font-semibold text-gray-700 border-b border-gray-200">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {jobs.map((job, index) => (
+                    <tr key={job._id} className={`hover:bg-gray-50 transition-colors ${index % 2 === 0 ? 'bg-white' : 'bg-gray-25'}`}>
+                      <td className="px-6 py-4 font-medium text-gray-900">{job.nameOfPosition}</td>
+                      <td className="px-6 py-4 text-gray-600">{job.location}</td>
+                      <td className="px-6 py-4 text-center">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                          {job.totalVacancies}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          {job.noOfFilledPosition ?? 0}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-center text-gray-600">
+                        {new Date(job.postedOn).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4 text-center">
+                        <div className="flex justify-center space-x-2">
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            onClick={() => handleEdit(job)}
+                            className="!text-blue-600 !border-blue-200 hover:!bg-blue-50 !text-xs !px-3 !py-1"
+                          >
+                            ✏️ Edit
+                          </Button>
+                          <Button
+                            size="small"
+                            color="error"
+                            variant="outlined"
+                            onClick={() => handleDelete(job._id)}
+                            className="!text-red-600 !border-red-200 hover:!bg-red-50 !text-xs !px-3 !py-1"
+                          >
+                            🗑️ Delete
+                          </Button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {jobs.length === 0 && (
+                    <tr>
+                      <td colSpan="6" className="px-6 py-12 text-center">
+                        <div className="flex flex-col items-center space-y-3">
+                          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+                            <span className="text-2xl">📝</span>
+                          </div>
+                          <p className="text-gray-500 text-lg">No jobs posted yet</p>
+                          <p className="text-gray-400 text-sm">Create your first job posting to get started</p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>

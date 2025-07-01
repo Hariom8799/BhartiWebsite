@@ -10,7 +10,7 @@ body{font-family: "Nunito", sans-serif !important; background: #f1f1f1;}
 
 header{box-shadow: 0 1px 5px #0000001a;}
 
-.btn-custom{padding: 10px 25px !important; background: #ed3338 !important; color: #fff !important; font-weight: 600 !important; transition:all 0.3s !important; overflow: hidden;}
+.btn-custom{padding: 8px 10px !important; background: #ed3338 !important; color: #fff !important; font-weight: 600 !important; transition:all 0.3s !important; overflow: hidden;}
 .btn-custom span{position: relative; z-index: 99;} 
 
  .btn-custom:after{content: ''; width: 100% !important; height: 100%; position: absolute; top: 0px; left: 0px;background:#374151!important; z-index: 1; opacity: 0;  transition:all 0.3s !important;}

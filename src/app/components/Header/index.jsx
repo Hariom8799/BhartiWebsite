@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { MdOutlineEmail } from "react-icons/md";
-import { FaFacebookF, FaInstagram, FaLinkedinIn, FaTwitter } from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaRegUser, FaTwitter } from "react-icons/fa";
 import Image from "next/image";
 import { useAuth } from "../../../context/AuthContext"; // Adjust path as needed
 import { useSiteContext } from "@/context/siteContext";
@@ -90,6 +90,11 @@ const Header = () => {
                   </>
                 )}
               </div>
+              {user && 
+                <Button className="rounded-full btn-custom !text-[12px]" onClick={handleLogout}>
+                  <span>Logout</span>
+                </Button>
+              }
             </div>
           </div>
         </div>
@@ -114,7 +119,7 @@ const Header = () => {
             <div className="ml-auto flex items-center gap-10">
               <nav className={`flex items-center gap-8 fixed top-0 ${isOpenNav === true && 'open'}  lg:static z-[100] bg-white h-full lg:h-auto flex-col lg:flex-row w-[80%] lg:w-max transition-all`}>
                 {menu.map((item) => (
-                  <Link href={item.href} key={item.title} className="w-full lg:w-auto block"  onClick={() => setIsOpenNav(false)}>
+                  <Link href={item.href} key={item.title} className="w-full lg:w-auto block" onClick={() => setIsOpenNav(false)}>
                     <Button className="!text-gray-600 !font-[600] hover:!text-primary lg:!px-0 ">
                       {item.title}
                     </Button>
@@ -147,7 +152,7 @@ const Header = () => {
                 <div className="lg:hidden w-full lg:w-auto flex items-center gap-5 flex-col">
                   {user ? (
                     <div className="w-full lg:w-auto pl-2 ">
-                      <Link href="/add-jobs"  onClick={() => setIsOpenNav(false)}>
+                      <Link href="/add-jobs" onClick={() => setIsOpenNav(false)}>
                         <Button className="!text-gray-600 !font-[600] hover:!text-primary !px-0">
                           Add Job
                         </Button>
@@ -157,7 +162,7 @@ const Header = () => {
                       </Button>
                     </div>
                   ) : (
-                    <Link href="/department-login"  onClick={() => setIsOpenNav(false)}>
+                    <Link href="/department-login" onClick={() => setIsOpenNav(false)}>
                       <div className="flex btn-wrap">
                         <Button className="rounded-full btn-custom">
                           <span>Department Login</span>
@@ -187,9 +192,26 @@ const Header = () => {
                         Add Job
                       </Button>
                     </Link>
-                    <Button className="rounded-full btn-custom" onClick={handleLogout}>
-                      <span>Logout</span>
-                    </Button>
+                    
+                      <div className="flex items-center gap-3">
+                      
+                      <div className="info flex flex-col">
+                        <h4 className="leading-3 text-[14px] text-[rgba(0,0,0,0.6)] font-[500] mb-0 capitalize text-right justify-start">
+                          {user?.name}
+                        </h4>
+                        <span className="text-[13px] text-[rgba(0,0,0,0.6)]  font-[400] capitalize text-left justify-start">
+                          {user?.email}
+                        </span>
+                      </div>
+                      <div className="!w-[40px] !h-[40px] !min-w-[40px] !rounded-full !bg-gray-200 flex justify-center items-center">
+                        <FaRegUser className="text-[17px] text-[rgba(0,0,0,0.7)]" />
+                      </div>
+                      
+                      </div>
+                      
+
+                    
+                    
                   </>
                 ) : (
                   <Link href="/department-login">
